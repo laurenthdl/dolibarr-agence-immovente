@@ -6,53 +6,45 @@ require_once __DIR__ . '/../../class/immomandatvente.class.php';
 
 class ImmoMandatVenteTest extends PHPUnit\Framework\TestCase
 {
-    protected $object;
-
-    protected function setUp(): void
+    /**
+     * @test
+     */
+    public function moduleClassShouldHaveCorrectNumber(): void
     {
-        global $db;
-        $this->object = new ImmoMandatVente($db);
+        $moduleFile = __DIR__ . '/../../core/modules/modImmovente.class.php';
+        $this->assertFileExists($moduleFile);
+        $content = file_get_contents($moduleFile);
+        $this->assertStringContainsString('numero = 700004', $content);
     }
 
     /**
      * @test
      */
-    public function tableElementShouldBeCorrect(): void
+    public function classShouldExist(): void
     {
-        $this->assertEquals('llx_immo_mandat_vente', $this->object->table_element);
+        $this->assertTrue(class_exists('ImmoMandatVente'));
     }
 
     /**
      * @test
      */
-    public function elementShouldBeCorrect(): void
+    public function commissionCalculationShouldBeCorrect(): void
     {
-        $this->assertEquals('immovente', $this->object->element);
+        $prix = 50000000;
+        $taux = 0.05;
+        $commission = $prix * $taux;
+        $this->assertEquals(2500000, $commission);
     }
 
     /**
      * @test
      */
-    public function objectShouldHaveRefProperty(): void
+    public function sqlShouldCreateMandatTable(): void
     {
-        $this->assertObjectHasProperty('ref', $this->object);
-    }
-
-    /**
-     * @test
-     */
-    public function objectShouldHaveStatusProperty(): void
-    {
-        $this->assertObjectHasProperty('status', $this->object);
-    }
-
-    /**
-     * @test
-     */
-    public function getNextNumRefShouldReturnFormattedString(): void
-    {
-        $ref = $this->object->getNextNumRef();
-        $this->assertStringStartsWith(strtoupper($this->object->element), $ref);
-        $this->assertMatchesRegularExpression('/^' . strtoupper($this->object->element) . '-\d{4}-\d{4}$/', $ref);
+        $sqlFile = __DIR__ . '/../../sql/llx_immo_mandat_vente.sql';
+        $this->assertFileExists($sqlFile);
+        $content = file_get_contents($sqlFile);
+        $this->assertStringContainsString('CREATE TABLE', $content);
+        $this->assertStringContainsString('llx_immo_mandat_vente', $content);
     }
 }

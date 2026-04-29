@@ -1,5 +1,5 @@
 -- Table immo_mandat_vente
-CREATE TABLE IF NOT EXISTS {db_prefix}immo_mandat_vente (
+CREATE TABLE IF NOT EXISTS llx_immo_mandat_vente (
     rowid SERIAL PRIMARY KEY,
     ref VARCHAR(128) NOT NULL,
     fk_user_creat INTEGER NOT NULL,
@@ -9,8 +9,8 @@ CREATE TABLE IF NOT EXISTS {db_prefix}immo_mandat_vente (
 ) TABLESPACE pg_default;
 
 -- Indexes
-CREATE INDEX IF NOT EXISTS idx_immo_mandat_vente_ref ON {db_prefix}immo_mandat_vente(ref);
-CREATE INDEX IF NOT EXISTS idx_immo_mandat_vente_status ON {db_prefix}immo_mandat_vente(status);
+CREATE INDEX IF NOT EXISTS idx_immo_mandat_vente_ref ON llx_immo_mandat_vente(ref);
+CREATE INDEX IF NOT EXISTS idx_immo_mandat_vente_status ON llx_immo_mandat_vente(status);
 
 -- Trigger for tms
 CREATE OR REPLACE FUNCTION update_tms_column()
@@ -21,8 +21,8 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
-DROP TRIGGER IF EXISTS trg_immo_mandat_vente_tms ON {db_prefix}immo_mandat_vente;
+DROP TRIGGER IF EXISTS trg_immo_mandat_vente_tms ON llx_immo_mandat_vente;
 CREATE TRIGGER trg_immo_mandat_vente_tms
-    BEFORE UPDATE ON {db_prefix}immo_mandat_vente
+    BEFORE UPDATE ON llx_immo_mandat_vente
     FOR EACH ROW
     EXECUTE FUNCTION update_tms_column();

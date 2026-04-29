@@ -24,7 +24,7 @@ class modImmovente extends DolibarrModules
         $this->description = "Transactions de vente immobilière";
         $this->version = '1.0.0';
         $this->const_name = 'MAIN_MODULE_' . strtoupper($this->name);
-        $this->picto = 'building';
+        $this->picto = 'company';
         $this->module_parts = array();
         $this->dirs = array();
         $this->config_page_url = array("immovente@immobilier");
@@ -79,19 +79,12 @@ class modImmovente extends DolibarrModules
 
     public function init($options = ''): int
     {
-        $sql = array();
-        $result = $this->loadTables();
-
-        if ($result < 0) {
-            return -1;
-        }
-
-        return $this->init($options);
+        return $this->_init($sql, $options);
     }
 
     public function remove($options = ''): int
     {
         $sql = array();
-        return $this->remove($options);
+        return $this->_remove($sql, $options);
     }
 }
