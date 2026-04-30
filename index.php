@@ -20,6 +20,6 @@ if ($resql) { while ($obj = $db->fetch_object($resql)) {
     print '<td>Bien #' . $obj->fk_bien . '</td><td>' . $obj->type_mandat . '</td>';
     print '<td>' . dol_print_date($obj->date_debut, 'day') . '</td><td>' . dol_print_date($obj->date_fin, 'day') . '</td>';
     print '<td class="right">' . price($obj->prix_net_vendeur) . '</td><td class="right">' . price($obj->commission_valeur) . '</td>';
-    print '<td>' . $obj->statut . '</td><td class="center"><a href="card.php?action=edit&id=' . $obj->rowid . '">' . img_edit() . '</a> <a href="' . $_SERVER["PHP_SELF"] . '?action=delete&id=' . $obj->rowid . '&token=' . newToken() . '" onclick="return confirm('Supprimer ?')">' . img_delete() . '</a></td></tr>';
+    print '<td>' . $obj->statut . '</td><td class="center"><a href="card.php?action=edit&id=' . $obj->rowid . '">' . img_edit() . '</a> <a href="' . $_SERVER["PHP_SELF"] . '?action=delete&id=' . $obj->rowid . '&token=' . newToken() . '" onclick="return confirm("Supprimer ce mandat ?")">' . img_delete() . '</a></td></tr>';
 }}
 print '</table>'; llxFooter();
