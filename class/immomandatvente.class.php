@@ -9,14 +9,14 @@ class ImmoMandatVente extends CommonObject
     public $table_element = 'llx_immo_mandat_vente';
     public $element = 'immovente';
 
-    public int $rowid;
-    public string $ref = '';
-    public int $fk_user_creat;
-    public string $datec = '';
-    public string $tms = '';
-    public int $status;
+    public $rowid;
+    public $ref = '';
+    public $fk_user_creat;
+    public $datec = '';
+    public $tms = '';
+    public $status;
 
-    protected array $fields = array(
+    protected $fields = array(
         'rowid' => array('type' => 'integer', 'label' => 'ID', 'enabled' => 1, 'visible' => -1, 'notnull' => 1, 'index' => 1, 'position' => 10, 'comment' => 'Id'),
         'ref' => array('type' => 'varchar(128)', 'label' => 'Ref', 'enabled' => 1, 'visible' => 1, 'notnull' => 1, 'showoncombobox' => 1, 'index' => 1, 'position' => 20, 'searchall' => 1, 'comment' => 'Reference'),
         'fk_user_creat' => array('type' => 'integer:User:user/class/user.class.php', 'label' => 'UserAuthor', 'enabled' => 1, 'visible' => -2, 'notnull' => 1, 'position' => 510, 'foreignkey' => 'user.rowid'),
@@ -58,6 +58,14 @@ class ImmoMandatVente extends CommonObject
         $date = date('Y');
         $num = $this->getMaxNumRef() + 1;
         return sprintf("%s-%s-%04d", $prefix, $date, $num);
+    }
+
+    public function calculCommission(): float
+    {
+        if ($this->commission_type === 'POURCENTAGE') {
+            return $this->prix_net_vendeur * ($this->commission_valeur / 100);
+        }
+        return (float) $this->commission_valeur;
     }
 
     protected function getMaxNumRef(): int
